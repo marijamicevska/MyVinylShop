@@ -1,0 +1,123 @@
+﻿@model IEnumerable<MyVinylShop.Models.Vinyl>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using MyVinylShop.Models;
+
+@{
+    List<Item> items = (List<Item>)Session["cart"];
+}
+
+
+@if (items == null)
+{
+    <h2 style="text-shadow:2px 2px #ffffff">No items in the Shopping Cart!</h2>
+    return;
+}
+
+@if (items.Count() == 0)
+{
+    <h2 style="text-shadow:2px 2px #ffffff">No items in the Shopping Cart!</h2>
+}
+else
+{
+    <h2 style="text-shadow:2px 2px #ffffff">Shopping Cart</h2>
+    <table class="table" id="album">
+        <thead>
+            <tr>
+                <th>
+
+                </th>
+                <th>
+
+                </th>
+                <th>
+
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Artist.ArtistName)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Genre.GenreName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Release)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VinylPrice)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in (List<Item>)Session["cart"])
+            {
+            <tr>
+                <td>
+                    <a href="@Url.Action("Remove", "ShoppingCart", new { id = item.Product.VinylId })">Remove from Cart</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.VinylName)
+                </td>
+                <td id="album-list">
+                    <img alt="@item.Product.VinylName" src="@Url.Content(@item.Product.VinylURL)" width="220px" height="220px" />
+                </td>
+                <td style="font-weight:bold;">
+                    @Html.DisplayFor(modelItem => item.Product.Artist.ArtistName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.Genre.GenreName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.Release)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.Description)
+                </td>
+                <td>
+                    $@Html.DisplayFor(modelItem => item.Product.VinylPrice)
+                </td>
+            </tr>
+            }
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>TOTAL</td>
+            <td>
+                @{
+                    List<Item> cart = (List<Item>)Session["cart"];
+                    var total = cart.Sum(item => item.Product.VinylPrice * item.Quantity);
+                }
+                $@total
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <a href="@Url.Action("Index", "Vinyls")"><i><b>BACK TO THE VINYLS CATALOGUE</b></i></a>
+
+
+    @section Scripts{
+        <script src="~/Scripts/App/VinylScript.js"></script>
+        <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+        <script>
+
+            $(document).ready(function () {
+                $("#album").dataTable();
+            });
+
+        </script>
+    }
+}

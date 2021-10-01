@@ -1,0 +1,91 @@
+﻿
+@model IEnumerable<MyVinylShop.Models.Vinyl>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-shadow:2px 2px #ffffff">All Vinyls</h2>
+
+<table class="table" id="album">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.VinylName)
+
+            </th>
+
+            <th>
+
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Artist.ArtistName)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Genre.GenreName)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Release)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.VinylPrice)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.VinylName, "Details", new { id = item.VinylId })
+                    <br />
+                    <a href="@Url.Action("Buy", "ShoppingCart", new { id = item.VinylId })" style="text-decoration:none;">ORDER NOW</a>
+                </td>
+                <td id="album-list">
+                    <img alt="@item.VinylName" src="@Url.Content(@item.VinylURL)" width="220px" height="220px" />
+                </td>
+                <td style="font-weight:bold;">
+                    @Html.DisplayFor(modelItem => item.Artist.ArtistName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre.GenreName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Release)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+
+               
+                <td>
+                    $@Html.DisplayFor(modelItem => item.VinylPrice)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script src="~/Scripts/App/VinylScript.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $("#album").dataTable();
+        });
+
+    </script>
+}
+

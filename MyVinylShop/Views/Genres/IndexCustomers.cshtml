@@ -1,0 +1,43 @@
+﻿@model IEnumerable<MyVinylShop.Models.Genre>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-shadow:2px 2px #ffffff">Browse Vinyls by Genre</h2>
+
+
+<table class="table" id="album">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.GenreName)
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GenreName) <br />
+                    @Html.ActionLink("Show vinyls", "VinylsByGenre", new { genre = item.GenreName })
+                </td>
+               
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script src="~/Scripts/App/VinylScript.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $("#album").dataTable();
+        });
+
+    </script>
+}

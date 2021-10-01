@@ -1,0 +1,88 @@
+﻿@model IEnumerable<MyVinylShop.Models.Vinyl>
+
+@{
+    ViewBag.Title = "VinylsByGenre";
+}
+
+
+@if (Model.Count() == 0)
+{
+    <h3 style="font-style:italic;">Oh no! We couldn’t find what you were looking for.</h3>
+    <a href="~/Genres/Index"><i>Go back</i></a>
+}
+else
+{
+    <h2 style="text-shadow:2px 2px #ffffff">Vinyls by Genre</h2>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.VinylName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Artist.ArtistName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre.GenreName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year.YearId)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.VinylPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Release)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+    <tr>
+        <td>
+            <p style="color:lightblue; font-weight:bold;">
+                @Html.DisplayFor(modelItem => item.VinylName)
+            </p>
+            <br />
+
+            <a href="@Url.Action("Buy", "ShoppingCart", new { id = item.VinylId })" style="text-decoration:none;">ORDER NOW</a>
+
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Artist.ArtistName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Genre.GenreName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Year.YearId)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.VinylPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Release)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            <img alt="@item.VinylName" src="@Url.Content(@item.VinylURL)" width="200px" height="200px" />
+        </td>
+
+    </tr>
+        }
+
+    </table>
+
+}
+
